@@ -1,4 +1,4 @@
-package io.swagger;
+package br.com.open;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "io.swagger", "io.swagger.api" , "io.swagger.configuration"})
+@ComponentScan(basePackages = { "br.com.open", "br.com.open.api" , "br.com.open.configuration"})
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override
