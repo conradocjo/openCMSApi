@@ -1,324 +1,243 @@
 package br.com.open.model;
 
-import java.util.Objects;
+import java.util.Date;
+import java.util.List;
 
-import javax.validation.Valid;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
-import org.threeten.bp.OffsetDateTime;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
-import io.swagger.annotations.ApiModelProperty;
+import br.com.open.model.enumerators.StatusChamado;
 
-/**
- * Chamado
- */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-08-24T23:05:39.296Z")
 
+@Audited
+@Entity
+@Table(name = "TB_CHAMADO")
+public class Chamado {
+
+	@Id
+	@GeneratedValue
+	@JsonProperty("id")
+	private Long id = null;
+
+	@Column(name = "TITULO")
+	@JsonProperty("titulo")
+	private String titulo = null;
+
+	// TODO
+	@JsonProperty("tramite")
+	private List<Tramite> tramites = null;
+
+	// TODO
+	@JsonProperty("documentoAnexo")
+	private List<DocumentoAnexo> documentosAnexo = null;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "RESPONSAVEL")
+	@JsonProperty("responsavel")
+	private Usuario responsavel = null;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "SOLICITANTE")
+	@JsonProperty("solicitante")
+	private Usuario solicitante = null;
+
+	@JsonProperty("status")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "STATUS_CHAMADO", nullable = false)
+	private StatusChamado status = null;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "TIPO_CHAMADO")
+	@JsonProperty("tipoChamado")
+	private TipoChamado tipoChamado = null;
+
+	@JsonProperty("dataCriacao")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DATA_CRIACAO")
+	private Date dataCriacao = null;
+
+	public Chamado id(Long id) {
+		this.id = id;
+		return this;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Chamado titulo(String titulo) {
+		this.titulo = titulo;
+		return this;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public Chamado responsavel(Usuario responsavel) {
+		this.responsavel = responsavel;
+		return this;
+	}
+
+	public Usuario getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Usuario responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	public Chamado solicitante(Usuario solicitante) {
+		this.solicitante = solicitante;
+		return this;
+	}
+
+	public Usuario getSolicitante() {
+		return solicitante;
+	}
+
+	public void setSolicitante(Usuario solicitante) {
+		this.solicitante = solicitante;
+	}
+
+	public StatusChamado getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusChamado status) {
+		this.status = status;
+	}
+
+	public TipoChamado getTipoChamado() {
+		return tipoChamado;
+	}
+
+	public void setTipoChamado(TipoChamado tipoChamado) {
+		this.tipoChamado = tipoChamado;
+	}
+
+	public Chamado dataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+		return this;
+	}
+
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+	public List<Tramite> getTramites() {
+		return tramites;
+	}
+
+	public void setTramites(List<Tramite> tramites) {
+		this.tramites = tramites;
+	}
+
+	public List<DocumentoAnexo> getDocumentosAnexo() {
+		return documentosAnexo;
+	}
+
+	public void setDocumentosAnexo(List<DocumentoAnexo> documentosAnexo) {
+		this.documentosAnexo = documentosAnexo;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dataCriacao == null) ? 0 : dataCriacao.hashCode());
+		result = prime * result + ((documentosAnexo == null) ? 0 : documentosAnexo.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((responsavel == null) ? 0 : responsavel.hashCode());
+		result = prime * result + ((solicitante == null) ? 0 : solicitante.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((tipoChamado == null) ? 0 : tipoChamado.hashCode());
+		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+		result = prime * result + ((tramites == null) ? 0 : tramites.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Chamado other = (Chamado) obj;
+		if (dataCriacao == null) {
+			if (other.dataCriacao != null)
+				return false;
+		} else if (!dataCriacao.equals(other.dataCriacao))
+			return false;
+		if (documentosAnexo == null) {
+			if (other.documentosAnexo != null)
+				return false;
+		} else if (!documentosAnexo.equals(other.documentosAnexo))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (responsavel == null) {
+			if (other.responsavel != null)
+				return false;
+		} else if (!responsavel.equals(other.responsavel))
+			return false;
+		if (solicitante == null) {
+			if (other.solicitante != null)
+				return false;
+		} else if (!solicitante.equals(other.solicitante))
+			return false;
+		if (status != other.status)
+			return false;
+		if (tipoChamado == null) {
+			if (other.tipoChamado != null)
+				return false;
+		} else if (!tipoChamado.equals(other.tipoChamado))
+			return false;
+		if (titulo == null) {
+			if (other.titulo != null)
+				return false;
+		} else if (!titulo.equals(other.titulo))
+			return false;
+		if (tramites == null) {
+			if (other.tramites != null)
+				return false;
+		} else if (!tramites.equals(other.tramites))
+			return false;
+		return true;
+	}
 
-
-
-public class Chamado   {
-  @JsonProperty("id")
-  private Long id = null;
-
-  @JsonProperty("titulo")
-  private String titulo = null;
-
-  @JsonProperty("tramite")
-  private String tramite = null;
-
-  @JsonProperty("documentoAnexo")
-  private String documentoAnexo = null;
-
-  @JsonProperty("responsavel")
-  private String responsavel = null;
-
-  @JsonProperty("solicitante")
-  private String solicitante = null;
-
-  /**
-   * Status do chamado
-   */
-  public enum StatusEnum {
-    INICIADO("iniciado"),
-    
-    EM_ANDAMENTO("em andamento"),
-    
-    ESCALONADO("escalonado"),
-    
-    CONCLUIDO("concluido");
-
-    private String value;
-
-    StatusEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static StatusEnum fromValue(String text) {
-      for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("status")
-  private StatusEnum status = null;
-
-  @JsonProperty("tipoChamado")
-  private String tipoChamado = null;
-
-  @JsonProperty("dataCriacao")
-  private OffsetDateTime dataCriacao = null;
-
-  public Chamado id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Chamado titulo(String titulo) {
-    this.titulo = titulo;
-    return this;
-  }
-
-  /**
-   * Get titulo
-   * @return titulo
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getTitulo() {
-    return titulo;
-  }
-
-  public void setTitulo(String titulo) {
-    this.titulo = titulo;
-  }
-
-  public Chamado tramite(String tramite) {
-    this.tramite = tramite;
-    return this;
-  }
-
-  /**
-   * Get tramite
-   * @return tramite
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getTramite() {
-    return tramite;
-  }
-
-  public void setTramite(String tramite) {
-    this.tramite = tramite;
-  }
-
-  public Chamado documentoAnexo(String documentoAnexo) {
-    this.documentoAnexo = documentoAnexo;
-    return this;
-  }
-
-  /**
-   * Get documentoAnexo
-   * @return documentoAnexo
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getDocumentoAnexo() {
-    return documentoAnexo;
-  }
-
-  public void setDocumentoAnexo(String documentoAnexo) {
-    this.documentoAnexo = documentoAnexo;
-  }
-
-  public Chamado responsavel(String responsavel) {
-    this.responsavel = responsavel;
-    return this;
-  }
-
-  /**
-   * Get responsavel
-   * @return responsavel
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getResponsavel() {
-    return responsavel;
-  }
-
-  public void setResponsavel(String responsavel) {
-    this.responsavel = responsavel;
-  }
-
-  public Chamado solicitante(String solicitante) {
-    this.solicitante = solicitante;
-    return this;
-  }
-
-  /**
-   * Get solicitante
-   * @return solicitante
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getSolicitante() {
-    return solicitante;
-  }
-
-  public void setSolicitante(String solicitante) {
-    this.solicitante = solicitante;
-  }
-
-  public Chamado status(StatusEnum status) {
-    this.status = status;
-    return this;
-  }
-
-  /**
-   * Status do chamado
-   * @return status
-  **/
-  @ApiModelProperty(value = "Status do chamado")
-
-
-  public StatusEnum getStatus() {
-    return status;
-  }
-
-  public void setStatus(StatusEnum status) {
-    this.status = status;
-  }
-
-  public Chamado tipoChamado(String tipoChamado) {
-    this.tipoChamado = tipoChamado;
-    return this;
-  }
-
-  /**
-   * Get tipoChamado
-   * @return tipoChamado
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getTipoChamado() {
-    return tipoChamado;
-  }
-
-  public void setTipoChamado(String tipoChamado) {
-    this.tipoChamado = tipoChamado;
-  }
-
-  public Chamado dataCriacao(OffsetDateTime dataCriacao) {
-    this.dataCriacao = dataCriacao;
-    return this;
-  }
-
-  /**
-   * Get dataCriacao
-   * @return dataCriacao
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public OffsetDateTime getDataCriacao() {
-    return dataCriacao;
-  }
-
-  public void setDataCriacao(OffsetDateTime dataCriacao) {
-    this.dataCriacao = dataCriacao;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Chamado chamado = (Chamado) o;
-    return Objects.equals(this.id, chamado.id) &&
-        Objects.equals(this.titulo, chamado.titulo) &&
-        Objects.equals(this.tramite, chamado.tramite) &&
-        Objects.equals(this.documentoAnexo, chamado.documentoAnexo) &&
-        Objects.equals(this.responsavel, chamado.responsavel) &&
-        Objects.equals(this.solicitante, chamado.solicitante) &&
-        Objects.equals(this.status, chamado.status) &&
-        Objects.equals(this.tipoChamado, chamado.tipoChamado) &&
-        Objects.equals(this.dataCriacao, chamado.dataCriacao);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, titulo, tramite, documentoAnexo, responsavel, solicitante, status, tipoChamado, dataCriacao);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Chamado {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    titulo: ").append(toIndentedString(titulo)).append("\n");
-    sb.append("    tramite: ").append(toIndentedString(tramite)).append("\n");
-    sb.append("    documentoAnexo: ").append(toIndentedString(documentoAnexo)).append("\n");
-    sb.append("    responsavel: ").append(toIndentedString(responsavel)).append("\n");
-    sb.append("    solicitante: ").append(toIndentedString(solicitante)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    tipoChamado: ").append(toIndentedString(tipoChamado)).append("\n");
-    sb.append("    dataCriacao: ").append(toIndentedString(dataCriacao)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
-
