@@ -1,6 +1,5 @@
 package br.com.open.model;
 
-import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -10,8 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +26,9 @@ import br.com.open.model.enumerators.StatusAtivoInativo;
 @Audited
 @Entity
 @Table(name = "TB_SETOR")
-public class Setor {
+public class Setor extends BaseModel {
+
+	private static final long serialVersionUID = -7668565496992050065L;
 
 	@Id
 	@GeneratedValue
@@ -42,13 +41,8 @@ public class Setor {
 
 	@JsonProperty("status")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "STATUS")
+	@Column(name = "STATUS", nullable = false, length = 1)
 	private StatusAtivoInativo status = null;
-
-	@JsonProperty("dataCriacao")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATA_CRIACAO")
-	private Date dataCriacao = null;
 
 	public Setor id(Long id) {
 		this.id = id;
@@ -89,14 +83,6 @@ public class Setor {
 		this.status = status;
 	}
 
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
 	@Override
 	public boolean equals(java.lang.Object o) {
 		if (this == o) {
@@ -107,12 +93,13 @@ public class Setor {
 		}
 		Setor setor = (Setor) o;
 		return Objects.equals(this.id, setor.id) && Objects.equals(this.nome, setor.nome)
-				&& Objects.equals(this.status, setor.status) && Objects.equals(this.dataCriacao, setor.dataCriacao);
+				&& Objects.equals(this.status, setor.status)
+				&& Objects.equals(getDataCriacao(), setor.getDataCriacao());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, nome, status, dataCriacao);
+		return Objects.hash(id, nome, status, getDataCriacao());
 	}
 
 	@Override
@@ -122,7 +109,7 @@ public class Setor {
 		sb.append("    id: ").append(toIndentedString(id)).append("\n");
 		sb.append("    nome: ").append(toIndentedString(nome)).append("\n");
 		sb.append("    status: ").append(toIndentedString(status)).append("\n");
-		sb.append("    dataCriacao: ").append(toIndentedString(dataCriacao)).append("\n");
+		sb.append("    dataCriacao: ").append(toIndentedString(getDataCriacao())).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

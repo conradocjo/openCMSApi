@@ -1,6 +1,5 @@
 package br.com.open.model;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +26,9 @@ import br.com.open.model.enumerators.StatusChamado;
 @Audited
 @Entity
 @Table(name = "TB_CHAMADO")
-public class Chamado {
+public class Chamado extends BaseModel {
+
+	private static final long serialVersionUID = 6891602123623236146L;
 
 	@Id
 	@GeneratedValue
@@ -60,18 +59,13 @@ public class Chamado {
 
 	@JsonProperty("status")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "STATUS_CHAMADO", nullable = false)
+	@Column(name = "STATUS_CHAMADO", nullable = false, length = 1)
 	private StatusChamado status = null;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "TIPO_CHAMADO")
 	@JsonProperty("tipoChamado")
 	private TipoChamado tipoChamado = null;
-
-	@JsonProperty("dataCriacao")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATA_CRIACAO")
-	private Date dataCriacao = null;
 
 	public Chamado id(Long id) {
 		this.id = id;
@@ -141,19 +135,6 @@ public class Chamado {
 		this.tipoChamado = tipoChamado;
 	}
 
-	public Chamado dataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-		return this;
-	}
-
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
 	public List<Tramite> getTramites() {
 		return tramites;
 	}
@@ -174,7 +155,7 @@ public class Chamado {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dataCriacao == null) ? 0 : dataCriacao.hashCode());
+		result = prime * result + ((getDataCriacao() == null) ? 0 : getDataCriacao().hashCode());
 		result = prime * result + ((documentosAnexo == null) ? 0 : documentosAnexo.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((responsavel == null) ? 0 : responsavel.hashCode());
@@ -195,10 +176,10 @@ public class Chamado {
 		if (getClass() != obj.getClass())
 			return false;
 		Chamado other = (Chamado) obj;
-		if (dataCriacao == null) {
-			if (other.dataCriacao != null)
+		if (getDataCriacao() == null) {
+			if (other.getDataCriacao() != null)
 				return false;
-		} else if (!dataCriacao.equals(other.dataCriacao))
+		} else if (!getDataCriacao().equals(other.getDataCriacao()))
 			return false;
 		if (documentosAnexo == null) {
 			if (other.documentosAnexo != null)
