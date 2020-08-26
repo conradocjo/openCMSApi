@@ -5,19 +5,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum PesoChamado {
 
-	PESO_1(1),
+	PESO_1("1"),
 
-	PESO_2(2),
+	PESO_2("2"),
 
-	PESO_3(3),
+	PESO_3("3"),
 
-	PESO_4(4),
+	PESO_4("4"),
 
-	PESO_5(5);
+	PESO_5("5");
 
-	private Integer value;
+	private String value;
 
-	PesoChamado(Integer value) {
+	PesoChamado(String value) {
 		this.value = value;
 	}
 

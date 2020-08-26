@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
@@ -39,11 +40,11 @@ public class Chamado extends BaseModel {
 	@JsonProperty("titulo")
 	private String titulo = null;
 
-	// TODO
+	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
 	@JsonProperty("tramite")
 	private List<Tramite> tramites = null;
 
-	// TODO
+	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
 	@JsonProperty("documentoAnexo")
 	private List<DocumentoAnexo> documentosAnexo = null;
 

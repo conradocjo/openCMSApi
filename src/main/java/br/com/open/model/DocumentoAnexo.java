@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
@@ -26,6 +28,10 @@ public class DocumentoAnexo extends BaseModel {
 	@JsonProperty("caminho")
 	private String caminho = null;
 
+	@ManyToOne
+	@JoinColumn(name = "ID_CHAMADO")
+	private Chamado chamado;
+
 	public Long getId() {
 		return id;
 	}
@@ -40,6 +46,14 @@ public class DocumentoAnexo extends BaseModel {
 
 	public void setCaminho(String caminho) {
 		this.caminho = caminho;
+	}
+
+	public Chamado getChamado() {
+		return chamado;
+	}
+
+	public void setChamado(Chamado chamado) {
+		this.chamado = chamado;
 	}
 
 }
