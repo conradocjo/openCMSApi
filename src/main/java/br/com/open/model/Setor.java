@@ -34,7 +34,7 @@ public class Setor extends BaseModel {
 	private Long id;
 
 	@JsonProperty("nome")
-	@Column(name = "NOME")
+	@Column(name = "NOME", unique = true)
 	private String nome;
 
 	@JsonProperty("status")
