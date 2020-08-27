@@ -1,23 +1,25 @@
 package br.com.open.api;
 
+import static java.util.Objects.nonNull;
+
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.open.model.Setor;
+import br.com.open.services.impl.SetorServiceImpl;
 import io.swagger.annotations.ApiParam;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-08-24T23:05:39.296Z")
 
@@ -29,6 +31,9 @@ public class SetorApiController implements SetorApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    
+    @Autowired
+    private SetorServiceImpl service;
 
     @org.springframework.beans.factory.annotation.Autowired
     public SetorApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -36,18 +41,23 @@ public class SetorApiController implements SetorApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> cadastrarSetor(@ApiParam(value = "Realiza cadastro de setor." ,required=true )  @Valid @RequestBody Setor body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Setor> cadastrarSetor(@ApiParam(value = "Realiza cadastro de setor." ,required=true )  @PathVariable String setor) {
+        try {
+			if (nonNull(setor)) {
+				return ResponseEntity.ok(service.cadastrarSetor(new Setor(setor)));
+			} else {
+				return new ResponseEntity<Setor>(HttpStatus.BAD_REQUEST);	
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<Setor>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
     }
 
     public ResponseEntity<Void> deletarSetor(@Min(1L)@ApiParam(value = "ID do setor à ser deletado",required=true) @PathVariable("idSetor") Long idSetor) {
-        String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> deletarTipoChamadoNaoAssociado(@Min(1L)@ApiParam(value = "ID do tipoChamado à ser deletado",required=true) @PathVariable("idTipoChamado") Long idTipoChamado) {
-        String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 

@@ -33,10 +33,10 @@ public interface SetorApi {
         @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
         @ApiResponse(code = 400, message = "Entrada inválida"),
         @ApiResponse(code = 500, message = "Erro Interno") })
-    @RequestMapping(value = "/setor/cadastrarSetor",
+    @RequestMapping(value = "/setor/cadastrarSetor/{setor}",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> cadastrarSetor(@ApiParam(value = "Realiza cadastro de setor." ,required=true )  @Valid @RequestBody Setor body);
+    ResponseEntity<Setor> cadastrarSetor(@ApiParam(value = "Realiza cadastro de setor." ,required=true )  @PathVariable String setor);
 
 
     @ApiOperation(value = "Deleta setor caso não tenha nenhuma associação.", nickname = "deletarSetor", notes = "Deleta setor caso não tenha nenhuma associação.", tags={ "Setor", })

@@ -1,5 +1,6 @@
 package br.com.open.model;
 
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -30,16 +31,24 @@ public class Setor extends BaseModel {
 	@Id
 	@GeneratedValue
 	@JsonProperty("id")
-	private Long id = null;
+	private Long id;
 
 	@JsonProperty("nome")
 	@Column(name = "NOME")
-	private String nome = null;
+	private String nome;
 
 	@JsonProperty("status")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "STATUS", nullable = false, length = 1)
-	private StatusAtivoInativo status = null;
+	@Column(name = "STATUS", nullable = false, length = 10)
+	private StatusAtivoInativo status;
+
+	
+	public Setor(String nome) {
+		super();
+		this.nome = nome;
+		this.status = StatusAtivoInativo.ATIVO;
+		setDataCriacao(new Date());
+	}
 
 	public Setor id(Long id) {
 		this.id = id;
