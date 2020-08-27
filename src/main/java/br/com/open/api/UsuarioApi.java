@@ -41,7 +41,7 @@ public interface UsuarioApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody Usuario body);
+    ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody Usuario body);
 
 
     @ApiOperation(value = "Alterar senha do usuário.", nickname = "alterarSenha", notes = "", tags={ "Usuario", })

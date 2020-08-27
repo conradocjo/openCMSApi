@@ -1,5 +1,7 @@
 package br.com.open.api;
 
+import static java.util.Objects.nonNull;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.open.model.Usuario;
+import br.com.open.services.impl.UsuarioServiceImpl;
 import io.swagger.annotations.ApiParam;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-08-24T23:05:39.296Z")
 
@@ -33,6 +37,9 @@ public class UsuarioApiController implements UsuarioApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    
+    @Autowired
+    private UsuarioServiceImpl service;
 
     @org.springframework.beans.factory.annotation.Autowired
     public UsuarioApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -40,28 +47,33 @@ public class UsuarioApiController implements UsuarioApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody Usuario body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody Usuario body) {
+    	try {
+			if (nonNull(body)) {
+				Usuario usuarioGravado = service.adicionarUsuario(body);
+				return ResponseEntity.ok().body(usuarioGravado);
+			} else {
+				return new ResponseEntity<Usuario>(HttpStatus.METHOD_NOT_ALLOWED);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<Usuario>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+        
     }
 
     public ResponseEntity<Void> alterarSenha(@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.",required=true) @PathVariable("novaSenha") String novaSenha) {
-        String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> bloquearUsuario(@Min(1L)@ApiParam(value = "ID do usuário que será bloqueado.",required=true) @PathVariable("idUsuario") Long idUsuario) {
-        String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> deslogarUsuario() {
-        String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> editarUsuario(@ApiParam(value = "EndPoint para parte de edição de usuário." ,required=true )  @Valid @RequestBody Usuario body) {
-        String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 

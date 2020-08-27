@@ -72,6 +72,6 @@ public interface ChamadoApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> registrarNovoChamado(@ApiParam(value = "EndPoint responsável por registrar novo chamado." ,required=true )  @Valid @RequestBody Chamado body);
+    ResponseEntity<Chamado> registrarNovoChamado(@ApiParam(value = "EndPoint responsável por registrar novo chamado." ,required=true )  @Valid @RequestBody Chamado body);
 
 }

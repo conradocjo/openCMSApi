@@ -18,9 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import br.com.open.model.enumerators.PesoChamado;
 import br.com.open.model.enumerators.StatusAtivoInativo;
 
-/**
- * TipoChamado
- */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-08-24T23:05:39.296Z")
 
