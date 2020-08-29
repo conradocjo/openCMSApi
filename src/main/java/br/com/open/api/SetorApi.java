@@ -22,52 +22,52 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-08-24T23:05:39.296Z")
 
 @Api(value = "setor", description = "the setor API")
 @RequestMapping(value = "/api")
 public interface SetorApi {
 
-    @ApiOperation(value = "Cadastra setor", nickname = "cadastrarSetor", notes = "", tags={ "Setor", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
-        @ApiResponse(code = 400, message = "Entrada inválida"),
-        @ApiResponse(code = 500, message = "Erro Interno") })
-    @RequestMapping(value = "/setor/cadastrarSetor/{setor}",
-        produces = { "application/json" }, 
-        method = RequestMethod.POST)
-    ResponseEntity<Setor> cadastrarSetor(@ApiParam(value = "Realiza cadastro de setor." ,required=true )  @PathVariable String setor);
+	@ApiOperation(value = "Cadastra setor", nickname = "cadastrarSetor", notes = "", tags = { "Setor", })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+			@ApiResponse(code = 400, message = "Entrada inválida"),
+			@ApiResponse(code = 500, message = "Erro Interno") })
+	@RequestMapping(value = "/setor/cadastrarSetor/{setor}", produces = {
+			"application/json" }, method = RequestMethod.POST)
+	ResponseEntity<Setor> cadastrarSetor(
+			@ApiParam(value = "Realiza cadastro de setor.", required = true) @PathVariable String setor);
 
+	@ApiOperation(value = "Deleta setor caso não tenha nenhuma associação.", nickname = "deletarSetor", notes = "Deleta setor caso não tenha nenhuma associação.", tags = {
+			"Setor", })
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Id inválido."),
+			@ApiResponse(code = 404, message = "Setor não encontrado."),
+			@ApiResponse(code = 500, message = "Erro Interno") })
+	@RequestMapping(value = "/setor/deletarSetor/{idSetor}", produces = {
+			"application/json" }, method = RequestMethod.DELETE)
+	ResponseEntity<Void> deletarSetor(
+			@Min(1L) @ApiParam(value = "ID do setor à ser deletado", required = true) @PathVariable("idSetor") Long idSetor);
 
-    @ApiOperation(value = "Deleta setor caso não tenha nenhuma associação.", nickname = "deletarSetor", notes = "Deleta setor caso não tenha nenhuma associação.", tags={ "Setor", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Id inválido."),
-        @ApiResponse(code = 404, message = "Setor não encontrado."),
-        @ApiResponse(code = 500, message = "Erro Interno") })
-    @RequestMapping(value = "/setor/deletarSetor/{idSetor}",
-        produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    ResponseEntity<Void> deletarSetor(@Min(1L)@ApiParam(value = "ID do setor à ser deletado",required=true) @PathVariable("idSetor") Long idSetor);
-
-
-    @ApiOperation(value = "Deleta TipoChamado não associado a nenhum chamado", nickname = "deletarTipoChamadoNaoAssociado", notes = "EndPoint para deletar TipoChamado não associado a nenhum chamado.", tags={ "TipoChamado", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Order not found"),
-        @ApiResponse(code = 500, message = "Erro Interno") })
-    @RequestMapping(value = "/setor/deletarTipoChamadoNaoAssociado/{idTipoChamado}",
-        produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    ResponseEntity<Void> deletarTipoChamadoNaoAssociado(@Min(1L)@ApiParam(value = "ID do tipoChamado à ser deletado",required=true) @PathVariable("idTipoChamado") Long idTipoChamado);
-
-
-    @ApiOperation(value = "Lista todos setores.", nickname = "listarSetores", notes = "Retorna setores.", response = Setor.class, responseContainer = "List", tags={ "Setor", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Operação realizada com sucesso.", response = Setor.class, responseContainer = "List"),
-        @ApiResponse(code = 500, message = "Erro Interno") })
-    @RequestMapping(value = "/setor/listarSetores",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<Setor>> listarSetores();
+	@ApiOperation(value = "Ativa ou desativa setor, de acordo com status atual", nickname = "cadastrarSetor", notes = "", tags = { "Setor", })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+			@ApiResponse(code = 500, message = "Erro Interno") })
+	@RequestMapping(value = "/setor/ativarDesativarSetor/{idSetor}", produces = { "application/json" }, method = RequestMethod.PUT)
+	ResponseEntity<Setor> ativarOuDesativarSetor(
+			@Min(1L) @ApiParam(value = "Ativa ou desativa setor, de acordo com status atual", required = true)  @PathVariable Long id);
+	
+	@ApiOperation(value = "EditaSetor existente", nickname = "cadastrarSetor", notes = "", tags = { "Setor", })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+			@ApiResponse(code = 500, message = "Erro Interno") })
+	@RequestMapping(value = "/setor/editarSetor", produces = { "application/json" }, method = RequestMethod.PUT)
+	ResponseEntity<Setor> editarSetor(
+			@ApiParam(value = "Editar setor", required = true) @Valid @RequestBody Setor body);
+	
+	@ApiOperation(value = "Lista todos setores.", nickname = "listarSetores", notes = "Retorna setores.", response = Setor.class, responseContainer = "List", tags = {
+			"Setor", })
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Operação realizada com sucesso.", response = Setor.class, responseContainer = "List"),
+			@ApiResponse(code = 500, message = "Erro Interno") })
+	@RequestMapping(value = "/setor/listarSetores", produces = { "application/json" }, method = RequestMethod.GET)
+	ResponseEntity<List<Setor>> listarSetores();
 
 }

@@ -42,12 +42,15 @@ public class Setor extends BaseModel {
 	@Column(name = "STATUS", nullable = false, length = 10)
 	private StatusAtivoInativo status;
 
-	
 	public Setor(String nome) {
 		super();
 		this.nome = nome;
 		this.status = StatusAtivoInativo.ATIVO;
 		setDataCriacao(new Date());
+	}
+
+	public Setor() {
+		super();
 	}
 
 	public Setor id(Long id) {
