@@ -2,7 +2,6 @@ package br.com.open.api;
 
 import static java.util.Objects.nonNull;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;

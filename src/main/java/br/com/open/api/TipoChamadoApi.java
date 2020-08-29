@@ -5,9 +5,13 @@
  */
 package br.com.open.api;
 
+import java.util.List;
+
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,15 +28,56 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping(value = "/api")
 public interface TipoChamadoApi {
 
-    @ApiOperation(value = "Parametriza novo tipoChamado.", nickname = "cadastrarTipoChamado", notes = "EndPoint Parametriza novo tipoChamado.", tags={ "TipoChamado", })
+    @ApiOperation(value = "Cria novo tipoChamado.", nickname = "cadastrarTipoChamado", notes = "EndPoint Parametriza novo tipoChamado.", tags={ "TipoChamado", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Operação realizada com sucesso."),
-        @ApiResponse(code = 405, message = "Entrada inválida."),
+        @ApiResponse(code = 400, message = "Entrada inválida."),
         @ApiResponse(code = 500, message = "Erro Interno.") })
     @RequestMapping(value = "/tipoChamado/cadastrarTipoChamado",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> cadastrarTipoChamado(@ApiParam(value = "EndPoint Parametriza novo tipoChamado." ,required=true )  @Valid @RequestBody TipoChamado body);
+    ResponseEntity<TipoChamado> cadastrarTipoChamado(@ApiParam(value = "EndPoint Parametriza novo tipoChamado." ,required=true)  @Valid @RequestBody TipoChamado body);
+
+    @ApiOperation(value = "Lista todos tipos de chamado", nickname = "listarTodosTiposChamado", notes = "Endpoint retorna todos tipos de Chamado", tags={ "TipoChamado", })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+            @ApiResponse(code = 500, message = "Erro Interno.") })
+    @RequestMapping(value = "/tipoChamado/listarTodosTiposChamado",
+    		produces = {"application/json"}, method = RequestMethod.GET)
+	ResponseEntity<List<TipoChamado>> listarTodosTiposChamado();
+
+	@ApiOperation(value = "Edita tipoChamado.", nickname = "editarTipoChamado", 
+			notes = "EndPoint edita tipoChamado.", tags={ "TipoChamado", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+        @ApiResponse(code = 400, message = "Entrada inválida."),
+        @ApiResponse(code = 500, message = "Erro Interno.") })
+    @RequestMapping(value = "/tipoChamado/editarTipoChamado",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+	ResponseEntity<TipoChamado> editarTipoChamado(@ApiParam(value = "Editar TipoChamado", required = true)  @Valid @RequestBody TipoChamado body);
+
+	@ApiOperation(value = "Ativa ou inativa tipo de chamado, dependendo do status atual.", nickname = "ativarInativarTipoChamado",
+			notes="Ativa ou inativa tipo de chamado, dependendo do status atual.",tags={ "TipoChamado", })
+	@ApiResponses(value = { 
+	        @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+	        @ApiResponse(code = 400, message = "Entrada inválida."),
+	        @ApiResponse(code = 500, message = "Erro Interno.") })
+	@RequestMapping(value = "/tipoChamado/ativarInativarTipoChamado/{id}",
+			produces = {"application/json"},
+			method = RequestMethod.PUT)
+	ResponseEntity<TipoChamado> ativarInativarTipoChamado(@Min(1L) @ApiParam(value = "Ativa ou desativa tipoChamado, de acordo com status atual", required = true)  @PathVariable("idTipoChamado") Long id);
+
+
+	@ApiOperation(value = "Deleta tipo de chamado.", nickname = "deletarTipoChamado",
+			notes="Deleta tipo de chamado.",tags={ "TipoChamado", })
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Id inválido."),
+			@ApiResponse(code = 404, message = "TipoChamado não encontrado."),
+			@ApiResponse(code = 500, message = "Erro Interno") })
+	@RequestMapping(value = "/TipoChamado/deletarTipoChamado/{idTipoChamado}", produces = {
+			"application/json" }, method = RequestMethod.DELETE)
+	ResponseEntity<Void> deletarTipoChamado(@Min(1L) @ApiParam(value = "ID do tipoChamado à ser deletado", required = true) @PathVariable("idTipoChamado") Long idTipoChamado);
 
 }
