@@ -18,4 +18,6 @@ public interface SetorService {
 
 	List<Setor> listarTodosSetores();
 
+	Setor recuperarSetorPorId(Long id);
+
 }

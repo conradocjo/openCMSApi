@@ -17,5 +17,5 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario adicionarUsuario(Usuario usuario) {
 		return repo.save(usuario);
 	}
-
+	
 }

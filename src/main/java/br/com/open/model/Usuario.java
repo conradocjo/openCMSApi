@@ -1,19 +1,23 @@
 package br.com.open.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
-import org.threeten.bp.OffsetDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -33,53 +37,73 @@ public class Usuario extends BaseModel implements Serializable {
 	@Id
 	@GeneratedValue
 	@JsonProperty("id")
-	private Long id = null;
+	private Long id;
 
 	@JsonProperty("nome")
 	@Column(name = "NOME", nullable = false)
-	private String nome = null;
+	private String nome;
 
 	@JsonProperty("imagemDePerfil")
 	@Column(name = "IMAGEM_PERFIL", nullable = true)
-	private String imagemDePerfil = null;
+	private String imagemDePerfil;
 
 	@JsonProperty("matricula")
 	@Column(name = "MATRICULA", nullable = true, unique = true, length = 20)
-	private String matricula = null;
+	private String matricula;
 
 	@JsonProperty("email")
 	@Column(name = "EMAIL", nullable = false, unique = true, length = 50)
-	private String email = null;
+	private String email;
 
 	@JsonProperty("usuario")
 	@Column(name = "USUARIO", nullable = false, unique = true, length = 20)
-	private String usuario = null;
+	private String usuario;
 
 	@JsonProperty("senha")
 	@Column(name = "SENHA", nullable = false, length = 20)
-	private String senha = null;
+	private String senha;
 
 	@JsonProperty("setor")
-	private Setor setor = null;
-
-	@JsonProperty("gestor")
-	private Boolean gestor = false;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "Setor")
+	private Setor setor;
 
 	@JsonProperty("ramal")
-	private String ramal = null;
+	@Column(name = "RAMAL", nullable = true, length = 10)
+	private String ramal;
 
 	@JsonProperty("status")
-	private StatusAtivoInativo status = null;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "STATUS", nullable = false, length = 10)
+	private StatusAtivoInativo status;
 
 	@JsonProperty("perfil")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "PERFIL_USUARIO", nullable = false, length = 3)
-	private PerfilUsuario perfil = null;
+	private PerfilUsuario perfil;
 
 	@JsonProperty("dataNascimento")
-	private OffsetDateTime dataNascimento = null;
+	@Column(name = "DATA_NASCIMENTO", nullable = true)
+	private Date dataNascimento;
 
-	// Getters and Setters
+	public Usuario() {
+	}
+
+	public Usuario(String nome, String imagemDePerfil, String matricula, String email, String usuario, String senha,
+			Setor setor, String ramal, PerfilUsuario perfil, Date dataNascimento) {
+		this.setStatus(StatusAtivoInativo.ATIVO);
+		this.setDataCriacao(new Date());
+		this.setNome(nome);
+		this.setImagemDePerfil(imagemDePerfil);
+		this.setMatricula(matricula);
+		this.setEmail(email);
+		this.setUsuario(usuario);
+		this.setSenha(senha);
+		this.setSetor(setor);
+		this.setRamal(ramal);
+		this.setPerfil(perfil);
+		this.setDataNascimento(dataNascimento);
+	}
 
 	public Usuario id(Long id) {
 		this.id = id;
@@ -185,19 +209,6 @@ public class Usuario extends BaseModel implements Serializable {
 		this.setor = setor;
 	}
 
-	public Usuario gestor(Boolean gestor) {
-		this.gestor = gestor;
-		return this;
-	}
-
-	public Boolean isGestor() {
-		return gestor;
-	}
-
-	public void setGestor(Boolean gestor) {
-		this.gestor = gestor;
-	}
-
 	public Usuario ramal(String ramal) {
 		this.ramal = ramal;
 		return this;
@@ -237,16 +248,16 @@ public class Usuario extends BaseModel implements Serializable {
 		this.perfil = perfil;
 	}
 
-	public Usuario dataNascimento(OffsetDateTime dataNascimento) {
+	public Usuario dataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 		return this;
 	}
 
-	public OffsetDateTime getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(OffsetDateTime dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -263,7 +274,6 @@ public class Usuario extends BaseModel implements Serializable {
 				&& Objects.equals(this.imagemDePerfil, usuario.imagemDePerfil)
 				&& Objects.equals(this.matricula, usuario.matricula) && Objects.equals(this.email, usuario.email)
 				&& Objects.equals(this.usuario, usuario.usuario) && Objects.equals(this.senha, usuario.senha)
-				&& Objects.equals(this.setor, usuario.setor) && Objects.equals(this.gestor, usuario.gestor)
 				&& Objects.equals(this.ramal, usuario.ramal) && Objects.equals(this.status, usuario.status)
 				&& Objects.equals(this.perfil, usuario.perfil)
 				&& Objects.equals(this.getDataCriacao(), usuario.getDataCriacao())
@@ -272,8 +282,8 @@ public class Usuario extends BaseModel implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, nome, imagemDePerfil, matricula, email, usuario, senha, setor, gestor, ramal, status,
-				perfil, getDataCriacao(), dataNascimento);
+		return Objects.hash(id, nome, imagemDePerfil, matricula, email, usuario, senha, setor, ramal, status, perfil,
+				getDataCriacao(), dataNascimento);
 	}
 
 	@Override
@@ -289,7 +299,6 @@ public class Usuario extends BaseModel implements Serializable {
 		sb.append("    usuario: ").append(toIndentedString(usuario)).append("\n");
 		sb.append("    senha: ").append(toIndentedString(senha)).append("\n");
 		sb.append("    setor: ").append(toIndentedString(setor)).append("\n");
-		sb.append("    gestor: ").append(toIndentedString(gestor)).append("\n");
 		sb.append("    ramal: ").append(toIndentedString(ramal)).append("\n");
 		sb.append("    status: ").append(toIndentedString(status)).append("\n");
 		sb.append("    perfil: ").append(toIndentedString(perfil)).append("\n");

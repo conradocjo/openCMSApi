@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.open.model.enumerators.StatusChamado;
@@ -40,20 +42,20 @@ public class Chamado extends BaseModel {
 	@JsonProperty("titulo")
 	private String titulo = null;
 
-	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
-	@JsonProperty("tramite")
+	@JsonIgnore
+	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Tramite> tramites = null;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
-	@JsonProperty("documentoAnexo")
 	private List<DocumentoAnexo> documentosAnexo = null;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "RESPONSAVEL")
 	@JsonProperty("responsavel")
 	private Usuario responsavel = null;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "SOLICITANTE")
 	@JsonProperty("solicitante")
 	private Usuario solicitante = null;
@@ -63,7 +65,7 @@ public class Chamado extends BaseModel {
 	@Column(name = "STATUS_CHAMADO", nullable = false, length = 1)
 	private StatusChamado status = null;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "TIPO_CHAMADO")
 	@JsonProperty("tipoChamado")
 	private TipoChamado tipoChamado = null;

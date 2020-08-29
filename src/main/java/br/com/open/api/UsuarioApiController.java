@@ -3,6 +3,7 @@ package br.com.open.api;
 import static java.util.Objects.nonNull;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.open.model.Usuario;
+import br.com.open.model.dto.UsuarioDTO;
+import br.com.open.model.enumerators.PerfilUsuario;
+import br.com.open.services.impl.SetorServiceImpl;
 import br.com.open.services.impl.UsuarioServiceImpl;
 import io.swagger.annotations.ApiParam;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-08-24T23:05:39.296Z")
@@ -40,6 +44,9 @@ public class UsuarioApiController implements UsuarioApi {
     
     @Autowired
     private UsuarioServiceImpl service;
+    
+    @Autowired
+    private SetorServiceImpl setorService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public UsuarioApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -47,10 +54,11 @@ public class UsuarioApiController implements UsuarioApi {
         this.request = request;
     }
 
-    public ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody Usuario body) {
+    public ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody UsuarioDTO body) {
     	try {
 			if (nonNull(body)) {
-				Usuario usuarioGravado = service.adicionarUsuario(body);
+				Usuario usuarioGravado = service.adicionarUsuario(body.getUsuarioFromUsuarioDto(body.getNome(), body.getImagemDePerfil(), body.getMatricula(), body.getEmail(), body.getUsuario()
+						, body.getSenha(), setorService.recuperarSetorPorId(body.getIdSetor()), body.getRamal(), body.getPerfil(), body.getDataNascimento()));
 				return ResponseEntity.ok().body(usuarioGravado);
 			} else {
 				return new ResponseEntity<Usuario>(HttpStatus.METHOD_NOT_ALLOWED);
@@ -104,5 +112,11 @@ public class UsuarioApiController implements UsuarioApi {
 
         return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
     }
+    
+    @Override
+    public ResponseEntity<List<PerfilUsuario>> listarPerfis() {
+    	List<PerfilUsuario> perfis =  Arrays.asList(PerfilUsuario.values());
+    	return ResponseEntity.ok().body(perfis);
+	}
 
 }

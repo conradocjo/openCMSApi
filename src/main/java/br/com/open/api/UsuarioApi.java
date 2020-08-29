@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.open.model.Usuario;
+import br.com.open.model.dto.UsuarioDTO;
+import br.com.open.model.enumerators.PerfilUsuario;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -35,13 +37,13 @@ public interface UsuarioApi {
     @ApiOperation(value = "Adicionar novo usuário.", nickname = "adicionarNovoUsuario", notes = "EndPoint para gravar usuário na base de dados.", tags={ "Usuario", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Operação realizada com sucesso."),
-        @ApiResponse(code = 405, message = "Entrada inválida."),
+        @ApiResponse(code = 400, message = "Entrada inválida."),
         @ApiResponse(code = 500, message = "Erro Interno.") })
     @RequestMapping(value = "/usuario/adicionarUsuario",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody Usuario body);
+    ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody UsuarioDTO body);
 
 
     @ApiOperation(value = "Alterar senha do usuário.", nickname = "alterarSenha", notes = "", tags={ "Usuario", })
@@ -78,9 +80,8 @@ public interface UsuarioApi {
     @ApiOperation(value = "Editar Usuario.", nickname = "editarUsuario", notes = "", tags={ "Usuario", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Operação realizada com sucesso."),
-        @ApiResponse(code = 400, message = "Id inválido"),
         @ApiResponse(code = 404, message = "Usuário não encontrado."),
-        @ApiResponse(code = 405, message = "Entrada inválida.") })
+        @ApiResponse(code = 400, message = "Entrada inválida.") })
     @RequestMapping(value = "/usuario/editarUsuario",
         produces = { "application/json" }, 
         consumes = { "application/json" },
@@ -108,5 +109,8 @@ public interface UsuarioApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<String> realizarLogin(@NotNull @ApiParam(value = "Usuário que irá realizar operações.", required = true) @Valid @RequestParam(value = "usuario", required = true) String usuario,@NotNull @ApiParam(value = "Senha do usuário que irá realizar operações.", required = true) @Valid @RequestParam(value = "senha", required = true) String senha);
+
+
+	ResponseEntity<List<PerfilUsuario>> listarPerfis();
 
 }

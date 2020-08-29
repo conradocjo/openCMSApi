@@ -71,5 +71,10 @@ public class SetorServiceImpl implements SetorService {
 	public List<Setor> listarTodosSetores() {
 		return repo.findAll();
 	}
+	
+	@Override
+	public Setor recuperarSetorPorId(Long id) {
+		return repo.findById(id).get();
+	}
 
 }

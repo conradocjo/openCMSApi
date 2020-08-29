@@ -19,13 +19,26 @@ public class BaseModel implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DATA_CRIACAO")
 	private Date dataCriacao = null;
-	
+
+	@JsonProperty("dataAtualizacao")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DATA_ATUALIZACAO")
+	private Date dataAtualizacao = null;
+
 	public Date getDataCriacao() {
 		return dataCriacao;
 	}
 
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+
+	public Date getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(Date dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
 	}
 
 }
