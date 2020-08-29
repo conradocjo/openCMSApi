@@ -2,6 +2,8 @@ package br.com.open.services.impl;
 
 import static java.util.Objects.nonNull;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,17 @@ public class SetorServiceImpl implements SetorService {
 	public SetorRepository repo;
 
 	@Override
-	public Setor cadastrarSetor(Setor setor) {
+	public Setor salvar(Setor setor) {
+		return repo.save(setor);
+	}
+	
+	@Override
+	public Setor editarSetor(String nomeSetor, Long idSetor) {
+		Setor setor = null;
+		if (idSetor != null && nomeSetor != null) {
+			setor = this.repo.findById(idSetor).get();
+			setor.setNome(nomeSetor);
+		}
 		return repo.save(setor);
 	}
 
@@ -53,6 +65,11 @@ public class SetorServiceImpl implements SetorService {
 			}
 		}
 		return repo.save(setor);
+	}
+	
+	@Override
+	public List<Setor> listarTodosSetores() {
+		return repo.findAll();
 	}
 
 }

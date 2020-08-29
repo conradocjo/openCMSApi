@@ -35,8 +35,7 @@ public interface SetorApi {
 			@ApiResponse(code = 500, message = "Erro Interno") })
 	@RequestMapping(value = "/setor/cadastrarSetor/{setor}", produces = {
 			"application/json" }, method = RequestMethod.POST)
-	ResponseEntity<Setor> cadastrarSetor(
-			@ApiParam(value = "Realiza cadastro de setor.", required = true) @PathVariable String setor);
+	ResponseEntity<Setor> cadastrarSetor(@ApiParam(value = "Realiza cadastro de setor.", required = true) @PathVariable String setor);
 
 	@ApiOperation(value = "Deleta setor caso não tenha nenhuma associação.", nickname = "deletarSetor", notes = "Deleta setor caso não tenha nenhuma associação.", tags = {
 			"Setor", })
@@ -45,22 +44,22 @@ public interface SetorApi {
 			@ApiResponse(code = 500, message = "Erro Interno") })
 	@RequestMapping(value = "/setor/deletarSetor/{idSetor}", produces = {
 			"application/json" }, method = RequestMethod.DELETE)
-	ResponseEntity<Void> deletarSetor(
-			@Min(1L) @ApiParam(value = "ID do setor à ser deletado", required = true) @PathVariable("idSetor") Long idSetor);
+	ResponseEntity<Void> deletarSetor(@Min(1L) @ApiParam(value = "ID do setor à ser deletado", required = true) @PathVariable("idSetor") Long idSetor);
 
-	@ApiOperation(value = "Ativa ou desativa setor, de acordo com status atual", nickname = "cadastrarSetor", notes = "", tags = { "Setor", })
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+	@ApiOperation(value = "Deleta setor caso não tenha nenhuma associação.", nickname = "deletarSetor", notes = "Deleta setor caso não tenha nenhuma associação.", tags = {
+			"Setor", })
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Id inválido."),
+			@ApiResponse(code = 200, message = "Operação realizada com sucesso."),
+			@ApiResponse(code = 404, message = "Setor não encontrado."),
 			@ApiResponse(code = 500, message = "Erro Interno") })
 	@RequestMapping(value = "/setor/ativarDesativarSetor/{idSetor}", produces = { "application/json" }, method = RequestMethod.PUT)
-	ResponseEntity<Setor> ativarOuDesativarSetor(
-			@Min(1L) @ApiParam(value = "Ativa ou desativa setor, de acordo com status atual", required = true)  @PathVariable Long id);
+	ResponseEntity<Setor> ativarOuDesativarSetor(@Min(1L) @ApiParam(value = "Ativa ou desativa setor, de acordo com status atual", required = true)  @PathVariable("idSetor") Long id);
 	
 	@ApiOperation(value = "EditaSetor existente", nickname = "cadastrarSetor", notes = "", tags = { "Setor", })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
 			@ApiResponse(code = 500, message = "Erro Interno") })
-	@RequestMapping(value = "/setor/editarSetor", produces = { "application/json" }, method = RequestMethod.PUT)
-	ResponseEntity<Setor> editarSetor(
-			@ApiParam(value = "Editar setor", required = true) @Valid @RequestBody Setor body);
+	@RequestMapping(value = "/setor/editarSetor/{nomeSetor}/{idSetor}", produces = { "application/json" }, method = RequestMethod.PUT)
+	ResponseEntity<Setor> editarSetor(@ApiParam(value = "Editar setor", required = true)  @PathVariable("nomeSetor") String nomeSetor,  @PathVariable("idSetor") Long idSetor);
 	
 	@ApiOperation(value = "Lista todos setores.", nickname = "listarSetores", notes = "Retorna setores.", response = Setor.class, responseContainer = "List", tags = {
 			"Setor", })
