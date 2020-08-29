@@ -46,7 +46,7 @@ public class TipoChamadoServiceImpl implements TipoChamadoService {
 				}
 			}
 		}
-		return tipoChamado;
+		return repo.save(tipoChamado);
 	}
 
 	@Override

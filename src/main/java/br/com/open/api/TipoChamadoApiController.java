@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.open.model.TipoChamado;
+import br.com.open.model.dto.TipoChamadoDTO;
 import br.com.open.services.impl.TipoChamadoServiceImpl;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-08-24T23:05:39.296Z")
@@ -40,10 +41,10 @@ public class TipoChamadoApiController implements TipoChamadoApi {
 	}
 
 	@Override
-	public ResponseEntity<TipoChamado> cadastrarTipoChamado(@Valid TipoChamado body) {
+	public ResponseEntity<TipoChamado> cadastrarTipoChamado(@Valid TipoChamadoDTO body) {
 		try {
 			if (nonNull(body)) {
-				return ResponseEntity.ok().body(service.salvar(body));
+				return ResponseEntity.ok().body(service.salvar(body.retornaTipoChamadoDTO(body.getNome(), body.getPesoChamado(), body.getTempoMedioSla())));
 			} else {
 				return new ResponseEntity<TipoChamado>(HttpStatus.BAD_REQUEST);
 			}

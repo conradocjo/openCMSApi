@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.open.model.TipoChamado;
+import br.com.open.model.dto.TipoChamadoDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -37,7 +38,7 @@ public interface TipoChamadoApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<TipoChamado> cadastrarTipoChamado(@ApiParam(value = "EndPoint Parametriza novo tipoChamado." ,required=true)  @Valid @RequestBody TipoChamado body);
+    ResponseEntity<TipoChamado> cadastrarTipoChamado(@ApiParam(value = "EndPoint Parametriza novo tipoChamado." ,required=true)  @Valid @RequestBody TipoChamadoDTO body);
 
     @ApiOperation(value = "Lista todos tipos de chamado", nickname = "listarTodosTiposChamado", notes = "Endpoint retorna todos tipos de Chamado", tags={ "TipoChamado", })
     @ApiResponses(value = { 
@@ -65,7 +66,7 @@ public interface TipoChamadoApi {
 	        @ApiResponse(code = 200, message = "Operação realizada com sucesso."),
 	        @ApiResponse(code = 400, message = "Entrada inválida."),
 	        @ApiResponse(code = 500, message = "Erro Interno.") })
-	@RequestMapping(value = "/tipoChamado/ativarInativarTipoChamado/{id}",
+	@RequestMapping(value = "/tipoChamado/ativarInativarTipoChamado/{idTipoChamado}",
 			produces = {"application/json"},
 			method = RequestMethod.PUT)
 	ResponseEntity<TipoChamado> ativarInativarTipoChamado(@Min(1L) @ApiParam(value = "Ativa ou desativa tipoChamado, de acordo com status atual", required = true)  @PathVariable("idTipoChamado") Long id);

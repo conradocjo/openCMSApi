@@ -1,6 +1,6 @@
 package br.com.open.model;
 
-import java.util.Objects;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import br.com.open.model.enumerators.PesoChamado;
 import br.com.open.model.enumerators.StatusAtivoInativo;
 
@@ -26,36 +24,36 @@ import br.com.open.model.enumerators.StatusAtivoInativo;
 @Table(name = "TB_TIPO_CHAMADO")
 public class TipoChamado extends BaseModel {
 
-	private static final long serialVersionUID = 281986371637384214L;
+	private static final long serialVersionUID = -7203656258522127198L;
 
 	@Id
 	@GeneratedValue
-	@JsonProperty("id")
-	private Long id = null;
+	private Long id;
 
-	@JsonProperty("nome")
-	@Column(name = "NOME")
-	private String nome = null;
+	@Column(name = "NOME", unique = true)
+	private String nome;
 
-	@JsonProperty("peso")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "PESO_CHAMADO", nullable = false, length = 1)
-	private PesoChamado peso = null;
+	@Column(name = "PESO_CHAMADO", nullable = false, length = 15)
+	private PesoChamado peso;
 
-	@JsonProperty("tempoMedioSla")
-	@Column(name = "TEMPO_MEDIO_SLA", nullable = false, length = 5)
-	private Integer tempoMedioSla = null;
+	@Column(name = "TEMPO_MEDIO_SLA", nullable = false)
+	private Integer tempoMedioSla;
 
-	@JsonProperty("status")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "STATUS", nullable = false, length = 1)
-	private StatusAtivoInativo status = null;
-	
-	//Getters and Setters
+	@Column(name = "STATUS", nullable = false, length = 15)
+	private StatusAtivoInativo status;
 
-	public TipoChamado id(Long id) {
-		this.id = id;
-		return this;
+	public TipoChamado() {
+
+	}
+
+	public TipoChamado(String nome, PesoChamado pesoChamado, Integer tempoMedioSla) {
+		this.setNome(nome);
+		this.setPeso(pesoChamado);
+		this.setDataCriacao(new Date());
+		this.setTempoMedioSla(tempoMedioSla);
+		this.status = StatusAtivoInativo.ATIVO;
 	}
 
 	public Long getId() {
@@ -66,22 +64,12 @@ public class TipoChamado extends BaseModel {
 		this.id = id;
 	}
 
-	public TipoChamado nome(String nome) {
-		this.nome = nome;
-		return this;
-	}
-
 	public String getNome() {
 		return nome;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public TipoChamado peso(PesoChamado peso) {
-		this.peso = peso;
-		return this;
 	}
 
 	public PesoChamado getPeso() {
@@ -92,22 +80,12 @@ public class TipoChamado extends BaseModel {
 		this.peso = peso;
 	}
 
-	public TipoChamado tempoMedioSla(Integer tempoMedioSla) {
-		this.tempoMedioSla = tempoMedioSla;
-		return this;
-	}
-
-	public Integer gettempoMedioSla() {
+	public Integer getTempoMedioSla() {
 		return tempoMedioSla;
 	}
 
-	public void settempoMedioSla(Integer tempoMedioSla) {
+	public void setTempoMedioSla(Integer tempoMedioSla) {
 		this.tempoMedioSla = tempoMedioSla;
-	}
-
-	public TipoChamado status(StatusAtivoInativo status) {
-		this.status = status;
-		return this;
 	}
 
 	public StatusAtivoInativo getStatus() {
@@ -118,48 +96,4 @@ public class TipoChamado extends BaseModel {
 		this.status = status;
 	}
 
-	@Override
-	public boolean equals(java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		TipoChamado tipoChamado = (TipoChamado) o;
-		return Objects.equals(this.id, tipoChamado.id) && Objects.equals(this.nome, tipoChamado.nome)
-				&& Objects.equals(this.peso, tipoChamado.peso)
-				&& Objects.equals(this.tempoMedioSla, tipoChamado.tempoMedioSla)
-				&& Objects.equals(this.status, tipoChamado.status);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, nome, peso, tempoMedioSla, status);
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("class TipoChamado {\n");
-
-		sb.append("    id: ").append(toIndentedString(id)).append("\n");
-		sb.append("    nome: ").append(toIndentedString(nome)).append("\n");
-		sb.append("    peso: ").append(toIndentedString(peso)).append("\n");
-		sb.append("    tempoMedioSla: ").append(toIndentedString(tempoMedioSla)).append("\n");
-		sb.append("    status: ").append(toIndentedString(status)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
-
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
 }
