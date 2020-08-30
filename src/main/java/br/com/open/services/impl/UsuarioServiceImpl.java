@@ -18,4 +18,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return repo.save(usuario);
 	}
 	
+//	@Override
+//	public Usuario bloquearUsuario(Usuario usuario) {
+//		return repo.save(usuario);
+//	}
+	
 }

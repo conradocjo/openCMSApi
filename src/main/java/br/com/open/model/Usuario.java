@@ -74,12 +74,12 @@ public class Usuario extends BaseModel implements Serializable {
 
 	@JsonProperty("status")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "STATUS", nullable = false, length = 10)
+	@Column(name = "STATUS", nullable = false, length = 15)
 	private StatusAtivoInativo status;
 
 	@JsonProperty("perfil")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "PERFIL_USUARIO", nullable = false, length = 3)
+	@Column(name = "PERFIL_USUARIO", nullable = false, length = 15)
 	private PerfilUsuario perfil;
 
 	@JsonProperty("dataNascimento")

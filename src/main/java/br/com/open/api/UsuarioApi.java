@@ -65,7 +65,7 @@ public interface UsuarioApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> bloquearUsuario(@Min(1L)@ApiParam(value = "ID do usuário que será bloqueado.",required=true) @PathVariable("idUsuario") Long idUsuario);
+    ResponseEntity<Usuario> bloquearUsuario(@Min(1L)@ApiParam(value = "ID do usuário que será bloqueado.",required=true) @PathVariable("idUsuario") Long idUsuario);
 
 
     @ApiOperation(value = "Desloga usuário, impossíbilitando que realize operações no sistema.", nickname = "deslogarUsuario", notes = "", tags={ "Usuario", })
