@@ -57,14 +57,14 @@ public class UsuarioApiController implements UsuarioApi {
 		this.request = request;
 	}
 
-	public ResponseEntity<Usuario> adicionarNovoUsuario(
-			@ApiParam(value = "EndPoint para gravar usuário na base de dados.", required = true) @Valid @RequestBody UsuarioDTO body) {
+	@Override
+	public ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados.", required = true) @Valid @RequestBody UsuarioDTO body) {
 		try {
 			@SuppressWarnings("unused")
 			Setor setor = null;
 			if (nonNull(body) && nonNull(body.getIdSetor())) {
 				setor = setorService.recuperarSetorPorId(body.getIdSetor());
-				Usuario usuarioGravado = service.adicionarUsuario(getUsuarioFromUsuarioDto(body.getNome(),
+				Usuario usuarioGravado = service.salvar(getUsuarioFromUsuarioDto(body.getNome(),
 						body.getImagemDePerfil(), body.getMatricula(), body.getEmail(), body.getUsuario(),
 						body.getSenha(), setorService.recuperarSetorPorId(body.getIdSetor()), body.getRamal(),
 						body.getPerfil(), body.getDataNascimento()));
@@ -78,10 +78,11 @@ public class UsuarioApiController implements UsuarioApi {
 
 	}
 
+	@Override
 	public ResponseEntity<Void> alterarSenha(@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.", required = true) @PathVariable("novaSenha") String novaSenha) {
 		try {
 			if (nonNull(novaSenha)) {
-				//TODO: Recupera rusuário logado e passar nova senha que será usada.
+				// TODO: Recupera rusuário logado e passar nova senha que será usada.
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,47 +90,40 @@ public class UsuarioApiController implements UsuarioApi {
 		return null;
 	}
 
-	public ResponseEntity<Usuario> bloquearUsuario(@Min(1L) @ApiParam(value = "ID do usuário que será bloqueado.", required = true) @PathVariable("idUsuario") Long idUsuario) {
+	@Override
+	public ResponseEntity<Usuario> ativarOuInativarUsuario(@Min(1L) @ApiParam(value = "ID do usuário que será bloqueado.", required = true) @PathVariable("idUsuario") Long idUsuario) {
 		try {
 			if (nonNull(idUsuario)) {
-				return new ResponseEntity<Usuario>(HttpStatus.BAD_REQUEST);
+				return ResponseEntity.ok().body(this.service.bloquearDesbloquearUsuario(idUsuario));
 			} else {
-				//TODO:
-				return null;
+				return new ResponseEntity<Usuario>(HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<Usuario>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
+	@Override
 	public ResponseEntity<Void> deslogarUsuario() {
+		// TODO: à fazer
 		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
-	public ResponseEntity<Void> editarUsuario(
-			@ApiParam(value = "EndPoint para parte de edição de usuário.", required = true) @Valid @RequestBody Usuario body) {
-		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-	}
-
-	public ResponseEntity<List<Usuario>> listarPerfilDeUsuario(
-			@NotNull @ApiParam(value = "Retorna perfil de usuário", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
-		String accept = request.getHeader("Accept");
-		if (accept != null && accept.contains("application/json")) {
-			try {
-				return new ResponseEntity<List<Usuario>>(objectMapper.readValue(
-						"[ {  \"imagemDePerfil\" : \"imagemDePerfil\",  \"setor\" : \"setor\",  \"nome\" : \"nome\",  \"gestor\" : false,  \"perfil\" : \"administrador\",  \"senha\" : \"senha\",  \"matricula\" : \"matricula\",  \"usuario\" : \"usuario\",  \"id\" : 0,  \"dataNascimento\" : \"2000-01-23T04:56:07.000+00:00\",  \"ramal\" : \"ramal\",  \"dataCriacao\" : \"2000-01-23T04:56:07.000+00:00\",  \"email\" : \"email\",  \"status\" : \"ativo\"}, {  \"imagemDePerfil\" : \"imagemDePerfil\",  \"setor\" : \"setor\",  \"nome\" : \"nome\",  \"gestor\" : false,  \"perfil\" : \"administrador\",  \"senha\" : \"senha\",  \"matricula\" : \"matricula\",  \"usuario\" : \"usuario\",  \"id\" : 0,  \"dataNascimento\" : \"2000-01-23T04:56:07.000+00:00\",  \"ramal\" : \"ramal\",  \"dataCriacao\" : \"2000-01-23T04:56:07.000+00:00\",  \"email\" : \"email\",  \"status\" : \"ativo\"} ]",
-						List.class), HttpStatus.NOT_IMPLEMENTED);
-			} catch (IOException e) {
-				log.error("Couldn't serialize response for content type application/json", e);
-				return new ResponseEntity<List<Usuario>>(HttpStatus.INTERNAL_SERVER_ERROR);
+	@Override
+	public ResponseEntity<Usuario> editarUsuario(@ApiParam(value = "EndPoint para parte de edição de usuário.", required = true) @Valid @RequestBody Usuario body) {
+		try {
+			if (nonNull(body) && nonNull(body.getId())) {
+				return ResponseEntity.ok().body(service.salvar(body));
+			} else {
+				return new ResponseEntity<Usuario>(HttpStatus.BAD_REQUEST);
 			}
+		} catch (Exception e) {
+			return new ResponseEntity<Usuario>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity<List<Usuario>>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
-	public ResponseEntity<String> realizarLogin(
-			@NotNull @ApiParam(value = "Usuário que irá realizar operações.", required = true) @Valid @RequestParam(value = "usuario", required = true) String usuario,
+	@Override
+	public ResponseEntity<String> realizarLogin(@NotNull @ApiParam(value = "Usuário que irá realizar operações.", required = true) @Valid @RequestParam(value = "usuario", required = true) String usuario,
 			@NotNull @ApiParam(value = "Senha do usuário que irá realizar operações.", required = true) @Valid @RequestParam(value = "senha", required = true) String senha) {
 		String accept = request.getHeader("Accept");
 		if (accept != null && accept.contains("application/json")) {
@@ -144,9 +138,18 @@ public class UsuarioApiController implements UsuarioApi {
 
 		return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
 	}
+	
+	@Override
+	public ResponseEntity<List<Usuario>> retornaTodosUsuarios() {
+		try {
+			return ResponseEntity.ok().body(service.retornaTodosUsuarios());
+		} catch (Exception e) {
+			return new ResponseEntity<List<Usuario>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 	@Override
-	public ResponseEntity<List<PerfilUsuario>> listarPerfis() {
+	public ResponseEntity<List<PerfilUsuario>> listarPerfisDeUsuario() {
 		List<PerfilUsuario> perfis = Arrays.asList(PerfilUsuario.values());
 		return ResponseEntity.ok().body(perfis);
 	}

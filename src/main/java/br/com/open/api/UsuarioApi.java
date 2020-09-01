@@ -65,7 +65,7 @@ public interface UsuarioApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Usuario> bloquearUsuario(@Min(1L)@ApiParam(value = "ID do usuário que será bloqueado.",required=true) @PathVariable("idUsuario") Long idUsuario);
+    ResponseEntity<Usuario> ativarOuInativarUsuario(@Min(1L)@ApiParam(value = "ID do usuário que será bloqueado.",required=true) @PathVariable("idUsuario") Long idUsuario);
 
 
     @ApiOperation(value = "Desloga usuário, impossíbilitando que realize operações no sistema.", nickname = "deslogarUsuario", notes = "", tags={ "Usuario", })
@@ -86,18 +86,18 @@ public interface UsuarioApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> editarUsuario(@ApiParam(value = "EndPoint para parte de edição de usuário." ,required=true )  @Valid @RequestBody Usuario body);
+    ResponseEntity<Usuario> editarUsuario(@ApiParam(value = "EndPoint para parte de edição de usuário." ,required=true )  @Valid @RequestBody Usuario body);
 
 
-    @ApiOperation(value = "Lista perfil do usuário.", nickname = "listarPerfilDeUsuario", notes = "Serviço para listar perfil, com tempo que foi criado, quantidade de chamados fechados, pontuação SLA, e foto.", response = Usuario.class, responseContainer = "List", tags={ "Usuario", })
+    @ApiOperation(value = "Lista perfil do usuário.", nickname = "listarPerfilDeUsuario", notes = "Serviço para listar perfil, com tempo que foi criado, quantidade de chamados fechados, pontuação SLA, e foto.", response = PerfilUsuario.class, responseContainer = "List", tags={ "Usuario", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Operação realizada com sucesso.", response = Usuario.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "Operação realizada com sucesso.", response = PerfilUsuario.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Entrada inválida."),
         @ApiResponse(code = 500, message = "Erro Interno") })
     @RequestMapping(value = "/usuario/listarPerfilDeUsuario",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Usuario>> listarPerfilDeUsuario(@NotNull @ApiParam(value = "Retorna perfil de usuário", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
+    ResponseEntity<List<PerfilUsuario>> listarPerfisDeUsuario();
 
 
     @ApiOperation(value = "EndPoint de login de usuário.", nickname = "realizarLogin", notes = "EndPoint de login de usuário.", response = String.class, tags={ "Usuario", })
@@ -110,7 +110,13 @@ public interface UsuarioApi {
         method = RequestMethod.GET)
     ResponseEntity<String> realizarLogin(@NotNull @ApiParam(value = "Usuário que irá realizar operações.", required = true) @Valid @RequestParam(value = "usuario", required = true) String usuario,@NotNull @ApiParam(value = "Senha do usuário que irá realizar operações.", required = true) @Valid @RequestParam(value = "senha", required = true) String senha);
 
-
-	ResponseEntity<List<PerfilUsuario>> listarPerfis();
+    @ApiOperation(value = "EndPoint retorna todos usuarios", nickname = "retornaTodosUsuarios", notes = "EndPoint retorna todos usuarios", response = Usuario.class, tags = {"Usuario",})
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Operação realizada com sucesso.", response = Usuario.class),
+            @ApiResponse(code = 500, message = "Erro Interno") })
+    @RequestMapping(value = "/usuario/retornaTodosUsuarios",
+    produces = { "application/json" }, 
+    method = RequestMethod.GET)
+	ResponseEntity<List<Usuario>> retornaTodosUsuarios();
 
 }

@@ -1,6 +1,5 @@
 package br.com.open.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -19,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.open.model.enumerators.PerfilUsuario;
@@ -30,9 +30,9 @@ import br.com.open.model.enumerators.StatusAtivoInativo;
 @Audited
 @Entity
 @Table(name = "TB_USUARIO")
-public class Usuario extends BaseModel implements Serializable {
+public class Usuario extends BaseModel {
 
-	private static final long serialVersionUID = 4121512707416795575L;
+	private static final long serialVersionUID = 3509718621147896808L;
 
 	@Id
 	@GeneratedValue
@@ -63,9 +63,9 @@ public class Usuario extends BaseModel implements Serializable {
 	@Column(name = "SENHA", nullable = false, length = 20)
 	private String senha;
 
-	@JsonProperty("setor")
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "Setor")
+	@JoinColumn(name = "SETOR")
 	private Setor setor;
 
 	@JsonProperty("ramal")
