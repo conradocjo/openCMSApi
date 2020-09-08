@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.open.model.Chamado;
+import br.com.open.model.dto.ChamadoDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -72,6 +73,6 @@ public interface ChamadoApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Chamado> registrarNovoChamado(@ApiParam(value = "EndPoint responsável por registrar novo chamado." ,required=true )  @Valid @RequestBody Chamado body);
+    ResponseEntity<Chamado> registrarNovoChamado(@ApiParam(value = "EndPoint responsável por registrar novo chamado." ,required=true )  @Valid @RequestBody ChamadoDTO body);
 
 }

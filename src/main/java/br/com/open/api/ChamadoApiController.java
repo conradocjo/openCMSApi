@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.open.model.Chamado;
+import br.com.open.model.dto.ChamadoDTO;
 import br.com.open.services.ChamadoService;
 import io.swagger.annotations.ApiParam;
 
@@ -42,26 +43,25 @@ public class ChamadoApiController implements ChamadoApi {
 		this.request = request;
 	}
 
-	public ResponseEntity<Void> inserirTramite(
-			@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.", required = true) @PathVariable("tramite") String tramite) {
+	public ResponseEntity<Void> inserirTramite(@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.", required = true) @PathVariable("tramite") String tramite) {
 		System.out.println("Cheguei aqui.");
 		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
-	public ResponseEntity<Void> listarTodosChamadosPorSetor(
-			@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.", required = true) @PathVariable("setor") String setor) {
+	public ResponseEntity<Void> listarTodosChamadosPorSetor(@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.", required = true) @PathVariable("setor") String setor) {
 		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
-	public ResponseEntity<Void> listarTodosChamadosPorUsuario(
-			@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.", required = true) @PathVariable("usuario") String usuario) {
+	public ResponseEntity<Void> listarTodosChamadosPorUsuario(@DecimalMin("1") @DecimalMax("10") @ApiParam(value = "EndPoint para alterar senha do usuário.", required = true) @PathVariable("usuario") String usuario) {
 		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
-	public ResponseEntity<Chamado> registrarNovoChamado(@ApiParam(value = "EndPoint responsável por registrar novo chamado.", required = true) @Valid @RequestBody Chamado body) {
+	
+	public ResponseEntity<Chamado> registrarNovoChamado(@ApiParam(value = "EndPoint responsável por registrar novo chamado.", required = true) @Valid @RequestBody ChamadoDTO body) {
 		Chamado chamadoGerado = null;
 		try {
 			if (nonNull(body)) {
+				chamadoGerado = this.service.abrirChamado(body);
 				return ResponseEntity.ok(chamadoGerado);
 			} else {
 				return new ResponseEntity<Chamado>(HttpStatus.METHOD_NOT_ALLOWED);
@@ -70,5 +70,6 @@ public class ChamadoApiController implements ChamadoApi {
 			return new ResponseEntity<Chamado>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 }

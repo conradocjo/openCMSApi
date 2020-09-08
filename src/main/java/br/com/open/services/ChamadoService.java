@@ -1,9 +1,10 @@
 package br.com.open.services;
 
 import br.com.open.model.Chamado;
+import br.com.open.model.dto.ChamadoDTO;
 
 public interface ChamadoService {
 
-	Chamado abrirChamado(Chamado chamado);
+	Chamado abrirChamado(ChamadoDTO chamado);
 
 }

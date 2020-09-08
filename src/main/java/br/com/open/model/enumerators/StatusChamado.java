@@ -2,13 +2,15 @@ package br.com.open.model.enumerators;
 
 public enum StatusChamado {
 	
-	INICIADO("I"),
+	ABERTO("Aberto"),
+	
+	INICIADO("Iniciado"),
 
-	EM_ANDAMENTO("A"),
+	EM_ANDAMENTO("Em andamento"),
 
-	ESCALONADO("E"),
+	ESCALONADO("Escalonado"),
 
-	CONCLUIDO("C");
+	CONCLUIDO("Concluído");
 
 	private String value;
 

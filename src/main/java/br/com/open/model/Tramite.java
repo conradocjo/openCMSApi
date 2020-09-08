@@ -26,11 +26,23 @@ public class Tramite extends BaseModel {
 
 	@Column(name = "TRAMITE")
 	@JsonProperty("tramite")
-	private String titulo = null;
+	private String tramite = null;
 
 	@ManyToOne
 	@JoinColumn(name = "ID_CHAMADO")
 	private Chamado chamado;
+	
+	public Tramite(String tramite, Chamado chamado) {
+		this.setChamado(chamado);
+		this.setTramite(tramite);
+	}
+	
+	public Tramite(String tramite) {
+		this.setTramite(tramite);
+	}
+	
+	public Tramite() {
+	}
 
 	public Long getId() {
 		return id;
@@ -40,12 +52,21 @@ public class Tramite extends BaseModel {
 		this.id = id;
 	}
 
-	public String getTitulo() {
-		return titulo;
+
+	public Chamado getChamado() {
+		return chamado;
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setChamado(Chamado chamado) {
+		this.chamado = chamado;
+	}
+
+	public String getTramite() {
+		return tramite;
+	}
+
+	public void setTramite(String tramite) {
+		this.tramite = tramite;
 	}
 
 }

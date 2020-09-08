@@ -1,5 +1,6 @@
 package br.com.open.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -69,6 +70,14 @@ public class Chamado extends BaseModel {
 	@JoinColumn(name = "TIPO_CHAMADO")
 	@JsonProperty("tipoChamado")
 	private TipoChamado tipoChamado = null;
+
+	public Chamado(String titulo, Usuario responsavel, Usuario solicitante) {
+		this.setTitulo(titulo);
+		this.setResponsavel(responsavel);
+		this.setSolicitante(solicitante);
+		this.setStatus(status.ABERTO);
+		this.setDataCriacao(new Date());
+	}
 
 	public Chamado id(Long id) {
 		this.id = id;
