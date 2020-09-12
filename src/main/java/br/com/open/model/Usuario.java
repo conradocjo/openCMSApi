@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import org.hibernate.envers.Audited;
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.open.model.enumerators.PerfilUsuario;
@@ -63,7 +62,6 @@ public class Usuario extends BaseModel {
 	@Column(name = "SENHA", nullable = false, length = 20)
 	private String senha;
 
-	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "SETOR")
 	private Setor setor;

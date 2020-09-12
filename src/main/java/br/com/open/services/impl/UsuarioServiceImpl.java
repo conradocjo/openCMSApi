@@ -8,13 +8,14 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.open.dao.GenericDao;
 import br.com.open.model.Usuario;
 import br.com.open.model.enumerators.StatusAtivoInativo;
 import br.com.open.repositories.UsuarioRepository;
 import br.com.open.services.UsuarioService;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl extends GenericDao<Usuario> implements UsuarioService {
 
 	@Autowired
 	private UsuarioRepository repo;
@@ -45,7 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Override
 	public List<Usuario> retornaTodosUsuarios() {
-		return repo.findAll();
+		return repo.buscarTodosUsuarios();
 	}
 
 }
