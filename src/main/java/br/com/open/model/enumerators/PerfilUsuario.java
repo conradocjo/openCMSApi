@@ -1,39 +1,45 @@
 package br.com.open.model.enumerators;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum PerfilUsuario {
 
-	ADMINISTRADOR("ADM"),
+	ADMINISTRADOR(1, "ADM"),
 
-	GERENTE("GER"),
+	GERENTE(2, "GER"),
 
-	DIRETOR("DIR"),
+	DIRETOR(3, "DIR"),
 
-	ATENDENTE("ATE"),
+	ATENDENTE(4, "ATE"),
 
-	COMUM("COM");
+	COMUM(5, "COM");
 
-	private String value;
+	private int cod;
+	private String descricao;
 
-	PerfilUsuario(String value) {
-		this.value = value;
+	private PerfilUsuario(int cod, String descricao) {
+		this.cod = cod;
+		this.descricao = descricao;
 	}
 
-	@Override
-	@JsonValue
-	public String toString() {
-		return String.valueOf(value);
+	public int getCod() {
+		return cod;
 	}
 
-	@JsonCreator
-	public static PerfilUsuario fromValue(String text) {
-		for (PerfilUsuario b : PerfilUsuario.values()) {
-			if (String.valueOf(b.value).equals(text)) {
-				return b;
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public static PerfilUsuario toEnum(Integer cod) {
+
+		if (cod == null) {
+			return null;
+		}
+
+		for (PerfilUsuario x : PerfilUsuario.values()) {
+			if (cod.equals(x.getCod())) {
+				return x;
 			}
 		}
-		return null;
+
+		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
 }
