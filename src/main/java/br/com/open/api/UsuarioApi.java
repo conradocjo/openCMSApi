@@ -63,8 +63,7 @@ public interface UsuarioApi {
         @ApiResponse(code = 500, message = "Erro Interno") })
     @RequestMapping(value = "/usuario/bloquearUsuario/{idUsuario}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
+        method = RequestMethod.GET)
     ResponseEntity<Usuario> ativarOuInativarUsuario(@Min(1L)@ApiParam(value = "ID do usuário que será bloqueado.",required=true) @PathVariable("idUsuario") Long idUsuario);
 
 

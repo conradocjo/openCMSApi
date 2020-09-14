@@ -4,7 +4,6 @@ import static java.util.Objects.nonNull;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +26,8 @@ public class UsuarioServiceImpl extends GenericDao<Usuario> implements UsuarioSe
 
 	@Override
 	public Usuario bloquearDesbloquearUsuario(Long id) {
-		Usuario usuario = repo.findById(id).get();
+		Usuario usuario = repo.recuperarUsuarioPorId(id);
 		if (nonNull(usuario)) {
-			Hibernate.initialize(usuario.getSetor());
 			if (usuario.getStatus().equals(StatusAtivoInativo.ATIVO)) {
 				usuario.setStatus(StatusAtivoInativo.INATIVO);
 			} else {
