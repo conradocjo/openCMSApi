@@ -14,4 +14,6 @@ public interface UsuarioService {
 
 	List<Usuario> retornaTodosUsuarios();
 
+	void deletarUsuario(Usuario usuario);
+
 }

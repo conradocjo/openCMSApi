@@ -46,5 +46,10 @@ public class UsuarioServiceImpl extends GenericDao<Usuario> implements UsuarioSe
 	public List<Usuario> retornaTodosUsuarios() {
 		return repo.buscarTodosUsuarios();
 	}
+	
+	@Override
+	public void deletarUsuario(Usuario usuario) {
+		this.repo.delete(usuario);
+	}
 
 }

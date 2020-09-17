@@ -154,4 +154,14 @@ public class UsuarioApiController implements UsuarioApi {
 		return ResponseEntity.ok().body(perfis);
 	}
 
+	@Override
+	public ResponseEntity<Void> deletarUsuario(@Valid Usuario body) {
+		try {
+			this.service.deletarUsuario(body);
+			return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }

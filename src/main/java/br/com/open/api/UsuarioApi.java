@@ -117,5 +117,14 @@ public interface UsuarioApi {
     produces = { "application/json" }, 
     method = RequestMethod.GET)
 	ResponseEntity<List<Usuario>> retornaTodosUsuarios();
+    
+    @ApiOperation(value = "Deleta usuário caso não tenha nenhuma associação.", nickname = "deletarUsuario", notes = "Deleta usuario caso não tenha nenhuma associação.", tags = {
+			"Usuario", })
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Deletado com sucesso."),
+			@ApiResponse(code = 500, message = "Erro Interno") })
+	@RequestMapping(value = "/setor/deletarUsuario", produces = {
+			"application/json" }, method = RequestMethod.DELETE)
+	ResponseEntity<Void> deletarUsuario(@ApiParam(value = "Usuario que será deletado", required = true) @Valid @RequestBody Usuario body);
 
 }
