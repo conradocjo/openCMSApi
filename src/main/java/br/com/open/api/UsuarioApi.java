@@ -34,17 +34,6 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping(value = "/api")
 public interface UsuarioApi {
 
-    @ApiOperation(value = "Adicionar novo usuário.", nickname = "adicionarNovoUsuario", notes = "EndPoint para gravar usuário na base de dados.", tags={ "Usuario", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Operação realizada com sucesso."),
-        @ApiResponse(code = 400, message = "Entrada inválida."),
-        @ApiResponse(code = 500, message = "Erro Interno.") })
-    @RequestMapping(value = "/usuario/adicionarUsuario",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody UsuarioDTO body);
-
 
     @ApiOperation(value = "Alterar senha do usuário.", nickname = "alterarSenha", notes = "", tags={ "Usuario", })
     @ApiResponses(value = { 
@@ -86,6 +75,18 @@ public interface UsuarioApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Usuario> editarUsuario(@ApiParam(value = "EndPoint para parte de edição de usuário." ,required=true )  @Valid @RequestBody Usuario body);
+    
+    
+    @ApiOperation(value = "Adicionar novo usuário.", nickname = "adicionarNovoUsuario", notes = "EndPoint para gravar usuário na base de dados.", tags={ "Usuario", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 201, message = "Operação realizada com sucesso."),
+        @ApiResponse(code = 400, message = "Entrada inválida."),
+        @ApiResponse(code = 500, message = "Erro Interno.") })
+    @RequestMapping(value = "/usuario/adicionarUsuario",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<Usuario> adicionarNovoUsuario(@ApiParam(value = "EndPoint para gravar usuário na base de dados." ,required=true )  @Valid @RequestBody UsuarioDTO body);
 
 
     @ApiOperation(value = "Lista perfil do usuário.", nickname = "listarPerfilDeUsuario", notes = "Serviço para listar perfil, com tempo que foi criado, quantidade de chamados fechados, pontuação SLA, e foto.", response = PerfilUsuario.class, responseContainer = "List", tags={ "Usuario", })
@@ -118,13 +119,14 @@ public interface UsuarioApi {
     method = RequestMethod.GET)
 	ResponseEntity<List<Usuario>> retornaTodosUsuarios();
     
-    @ApiOperation(value = "Deleta usuário caso não tenha nenhuma associação.", nickname = "deletarUsuario", notes = "Deleta usuario caso não tenha nenhuma associação.", tags = {
-			"Usuario", })
+    @ApiOperation(value = "Deleta usuário caso não tenha nenhuma associação.", 
+    		nickname = "deletarUsuario", notes = "Deleta usuario caso não tenha nenhuma associação.", 
+    		tags = { "Usuario", })
 	@ApiResponses(value = { 
 			@ApiResponse(code = 200, message = "Deletado com sucesso."),
 			@ApiResponse(code = 500, message = "Erro Interno") })
-	@RequestMapping(value = "/setor/deletarUsuario", produces = {
+	@RequestMapping(value = "/usuario/deletarUsuario/{id}", produces = {
 			"application/json" }, method = RequestMethod.DELETE)
-	ResponseEntity<Void> deletarUsuario(@ApiParam(value = "Usuario que será deletado", required = true) @Valid @RequestBody Usuario body);
+	ResponseEntity<Void> deletarUsuario(@Min(1L) @ApiParam(value = "ID do usuário à ser deletado", required = true) @PathVariable("id") Long idSetor);
 
 }

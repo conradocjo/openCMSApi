@@ -19,6 +19,10 @@ public class UsuarioServiceImpl extends GenericDao<Usuario> implements UsuarioSe
 	@Autowired
 	private UsuarioRepository repo;
 
+	public Usuario recuperarUsuarioPorMatriculaUsuarioNome(String matricula, String usuario, String nome) {
+		return this.repo.recuperarUsuarioPorMatriculaUsuarioNome(matricula, usuario, nome);
+	}
+
 	@Override
 	public Usuario salvar(Usuario usuario) {
 		return repo.save(usuario);
@@ -41,15 +45,15 @@ public class UsuarioServiceImpl extends GenericDao<Usuario> implements UsuarioSe
 	public Usuario recuperarUsuarioPorId(Long id) {
 		return repo.findById(id).get();
 	}
-	
+
 	@Override
 	public List<Usuario> retornaTodosUsuarios() {
 		return repo.buscarTodosUsuarios();
 	}
-	
+
 	@Override
-	public void deletarUsuario(Usuario usuario) {
-		this.repo.delete(usuario);
+	public void deletarUsuario(Long id) {
+		this.repo.delete(repo.recuperarUsuarioPorId(id));
 	}
 
 }

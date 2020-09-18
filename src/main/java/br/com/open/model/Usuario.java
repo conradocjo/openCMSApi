@@ -62,7 +62,7 @@ public class Usuario extends BaseModel {
 	@Column(name = "SENHA", nullable = false, length = 20)
 	private String senha;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
 	@JoinColumn(name = "SETOR")
 	private Setor setor;
 
