@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private UserDetailsService userDetailsService;
 
 	private static final String[] PUBLIC_MATCHERS = {
-			"**", //Liberar o Swagger temporáriamente.
+			"**" //Liberar o Swagger temporáriamente.
 //			"/api/usuario/**"
 	};
 

@@ -43,7 +43,7 @@ public class UsuarioServiceImpl extends GenericDao<Usuario> implements UsuarioSe
 
 	@Override
 	public Usuario recuperarUsuarioPorId(Long id) {
-		return repo.findById(id).get();
+		return repo.recuperarUsuarioPorId(id);
 	}
 
 	@Override

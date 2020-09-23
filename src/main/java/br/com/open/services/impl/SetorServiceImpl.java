@@ -74,7 +74,7 @@ public class SetorServiceImpl implements SetorService {
 	
 	@Override
 	public Setor recuperarSetorPorId(Long id) {
-		return repo.findById(id).get();
+		return repo.retornaUsuarioPorId(id);
 	}
 
 }

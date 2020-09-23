@@ -113,8 +113,9 @@ public class UsuarioApiController implements UsuarioApi {
 	public ResponseEntity<Usuario> editarUsuario(@ApiParam(value = "EndPoint para parte de edição de usuário.", required = true) @Valid @RequestBody Usuario body) {
 		try {
 			if (nonNull(body) && nonNull(body.getId())) {
-				Usuario usuario = service.recuperarUsuarioPorMatriculaUsuarioNome(body.getMatricula(), body.getUsuario(), body.getNome());
+				Usuario usuario = service.recuperarUsuarioPorId(body.getId());
 				if (nonNull(usuario)) {
+					carregarInformacoesDoObjetoUsuario(body, usuario);
 					return ResponseEntity.ok().body(service.salvar(usuario));
 				} else {
 					return new ResponseEntity<Usuario>(HttpStatus.BAD_REQUEST);	
@@ -125,6 +126,17 @@ public class UsuarioApiController implements UsuarioApi {
 		} catch (Exception e) {
 			return new ResponseEntity<Usuario>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	private void carregarInformacoesDoObjetoUsuario(Usuario body, Usuario usuario) {
+		usuario.setDataNascimento(body.getDataNascimento());
+		usuario.setNome(body.getNome());
+		usuario.matricula(body.getMatricula());
+		usuario.setEmail(body.getEmail());
+		usuario.setSetor(setorService.recuperarSetorPorId(body.getSetor().getId()));
+		usuario.setSenha(body.getSenha());
+		usuario.setRamal(body.getRamal());
+		usuario.setPerfil(body.getPerfil());
 	}
 
 	@Override
