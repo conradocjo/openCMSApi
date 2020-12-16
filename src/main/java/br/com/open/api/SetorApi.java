@@ -67,4 +67,12 @@ public interface SetorApi {
 	@RequestMapping(value = "/setor/listarSetores", produces = { "application/json" }, method = RequestMethod.GET)
 	ResponseEntity<List<Setor>> listarSetores();
 
+	@ApiOperation(value = "Teste.", nickname = "testar", notes = "teste.", response = String.class,  tags = {
+			"Setor", })
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Operação realizada com sucesso.", response = String.class)
+	})
+	@RequestMapping(value = "/setor/testar", produces = { "application/json" }, method = RequestMethod.GET)
+	ResponseEntity<String> teste();
+
 }
