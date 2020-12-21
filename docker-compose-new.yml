@@ -1,0 +1,29 @@
+version: '3'
+# networks:
+#   rede:
+#     driver: bridge
+services:
+  db:
+    image: postgres:12
+    container_name: pgcontainer
+    restart: always
+    networks:
+      - rede
+    ports:
+      - "15432:5432"
+    expose:
+      - 15432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 1m
+      timeout: 10s
+      retries: 2
+networks:
+  rede:
+    external:
+      name: rede
+    
+    

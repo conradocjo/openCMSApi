@@ -35,6 +35,7 @@
 
 
 
+# FROM  openjdk:8-jre
 FROM  openjdk:9-jre
 ADD target/openCmsApi-1.0.0.jar .
 EXPOSE 8080 8000

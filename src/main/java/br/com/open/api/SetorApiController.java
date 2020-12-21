@@ -103,6 +103,8 @@ public class SetorApiController implements SetorApi {
 	@Override
 	public ResponseEntity<String> teste() {
 		System.out.println("Teste com debug.");
+		System.out.println("Teste com debug.");
+
 		return ResponseEntity.ok().body("Resposta 200 ok !");
 	}
 

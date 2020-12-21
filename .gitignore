@@ -18,7 +18,8 @@
 *.zip
 *.tar.gz
 *.rar
-
+openCmsApi.iml
+.idea
 #application.properties
 
 target/

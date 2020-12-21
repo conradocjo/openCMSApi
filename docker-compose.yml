@@ -5,7 +5,10 @@ services:
     ports:
       - "8080:8080"
       - "8000:8000"
-
-
-
-
+    networks:
+      - rede
+    container_name: apiopencms_jdk8
+networks:
+  rede:
+    external:
+      name: rede
